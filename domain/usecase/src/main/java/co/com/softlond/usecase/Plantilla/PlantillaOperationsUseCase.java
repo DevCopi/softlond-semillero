@@ -34,13 +34,14 @@ public class PlantillaOperationsUseCase  {
         return historialOperationsUseCase.getHistorial()
                         .defaultIfEmpty(new HistorialModel())
                         .flatMap(history -> {
-                            history.setContador(null == history.getContador() ? 1 : history.getContador() + 1);
-                            history.setDescripcion(descripcion);
+                            if (!descripcion.equals(history.getDescripcion())) {
+                                history.setContador(null == history.getContador() ? 1 : history.getContador() + 1);
+                                history.setDescripcion(descripcion);
+                            }
                             return historialOperationsUseCase.saveHistorial(history);
                         })
                         .then();
     }
-
     
     
 }
